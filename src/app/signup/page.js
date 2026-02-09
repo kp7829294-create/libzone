@@ -143,7 +143,7 @@ export default function Signup() {
             <div className="mx-auto bg-indigo-600 p-3 rounded-2xl shadow-xl w-14 h-14 flex items-center justify-center mb-4">
               <Library className="w-7 h-7 text-white" />
             </div>
-            <h1 className="font-display font-black text-4xl text-slate-900 tracking-tight">Create account</h1>
+            <h1 className="font-display font-black text-3xl sm:text-4xl text-slate-900 tracking-tight">Create account</h1>
             <p className="text-slate-500 font-medium mt-2">Join the future of campus libraries.</p>
           </div>
           <Card className="border-none shadow-[0_20px_50px_rgba(0,0,0,0.08)] rounded-[24px] sm:rounded-[32px] overflow-hidden bg-white/80 backdrop-blur-xl">

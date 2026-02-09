@@ -10,17 +10,17 @@ export default function Contact() {
       <main className="pt-32 pb-20 px-4 md:px-8">
         <div className="max-w-4xl mx-auto space-y-20">
           <div className="text-center space-y-6">
-            <h1 className="font-display font-black text-5xl md:text-6xl lg:text-7xl text-slate-900 tracking-tight leading-tight">
+            <h1 className="font-display font-black text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-slate-900 tracking-tight leading-tight">
               Contact Us
             </h1>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
               Have questions or feedback? We&apos;d love to hear from you.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12">
             <div className="space-y-6">
-              <h2 className="font-display font-bold text-3xl text-slate-900">Meet the Founder</h2>
+              <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">Meet the Founder</h2>
               <p className="text-slate-500 font-medium leading-relaxed">
                 Libzone is built with care by <span className="text-slate-900 font-bold">Gursewak Singh</span> to bring modern library management to campuses everywhere. Reach out for partnerships, support, or just to say hello.
               </p>
@@ -79,7 +79,7 @@ export default function Contact() {
           <div className="bg-slate-900 rounded-[48px] p-12 md:p-20 text-center space-y-8 overflow-hidden relative">
             <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 blur-[100px] rounded-full" />
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-48 bg-blue-500/10 blur-[80px] rounded-full" />
-            <h2 className="font-display font-bold text-4xl text-white relative z-10">Join the movement.</h2>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white relative z-10">Join the movement.</h2>
             <p className="text-slate-400 max-w-xl mx-auto font-medium relative z-10">
               Whether you&apos;re an administrator looking to upgrade your campus or a student ready for a better way to read, Libzone is here for you.
             </p>

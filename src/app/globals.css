@@ -88,6 +88,11 @@
   html {
     scrollbar-gutter: stable;
   }
+  @media (max-width: 767px) {
+    html {
+      font-size: 14px;
+    }
+  }
   body { @apply font-sans antialiased bg-background text-foreground; }
   /* Prevent layout shift when modal opens: Radix adds scrollbar compensation
      but we use scrollbar-gutter, so disable Radix's compensation to avoid double-shift */

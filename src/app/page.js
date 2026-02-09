@@ -22,11 +22,11 @@ export default function Home() {
                 </span>
                 Trusted by 150+ Institutions Worldwide
               </div>
-              <h1 className="font-display font-black text-6xl md:text-7xl lg:text-8xl leading-[0.95] text-slate-900 tracking-tight">
+              <h1 className="font-display font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-slate-900 tracking-tight">
                 Read. Learn. <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600">Succeed.</span>
               </h1>
-              <p className="text-xl md:text-2xl text-slate-500 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+              <p className="text-base sm:text-lg md:text-2xl text-slate-500 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
                 The library management system that works as fast as you do. Experience the future of knowledge sharing with <span className="text-blue-600 font-bold">Libzone</span>.
               </p>
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-5 pt-4">
@@ -90,8 +90,8 @@ export default function Home() {
       <section className="py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-20">
-            <h2 className="font-display font-bold text-4xl md:text-5xl text-slate-900 mb-6 tracking-tight">Built for the next generation</h2>
-            <p className="text-xl text-slate-500 font-medium">Libzone replaces clunky legacy systems with a breath of fresh air.</p>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-5xl text-slate-900 mb-6 tracking-tight">Built for the next generation</h2>
+            <p className="text-base sm:text-lg md:text-xl text-slate-500 font-medium">Libzone replaces clunky legacy systems with a breath of fresh air.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-10">
             {[
@@ -106,8 +106,8 @@ export default function Home() {
                   <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm">
                     <Icon className="w-8 h-8" />
                   </div>
-                  <h3 className="font-display font-bold text-2xl text-slate-900 mb-4 tracking-tight">{feature.title}</h3>
-                  <p className="text-slate-500 leading-relaxed font-medium text-lg">{feature.desc}</p>
+                  <h3 className="font-display font-bold text-xl sm:text-2xl text-slate-900 mb-4 tracking-tight">{feature.title}</h3>
+                  <p className="text-slate-500 leading-relaxed font-medium text-base sm:text-lg">{feature.desc}</p>
                 </CardContent>
               </Card>
             );

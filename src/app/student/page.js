@@ -114,7 +114,7 @@ function StudentDashboardContent() {
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-1">
-              <h1 className="font-display text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">Explore Books</h1>
+              <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">Explore Books</h1>
               <p className="text-slate-500 font-medium">Libzone library is open for you, {user?.name?.split(" ")[0] || "Student"}.</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">

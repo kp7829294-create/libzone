@@ -26,24 +26,24 @@ export function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 min-h-16">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-14 sm:h-16 min-h-14 sm:min-h-16">
           <Link href="/" className="flex items-center cursor-pointer gap-2 shrink-0">
             <div className="bg-primary p-1.5 rounded-lg shadow-sm">
               <Library className="h-5 w-5 text-white" />
             </div>
-            <span className="font-display font-bold text-xl tracking-tight text-slate-900">Libzone</span>
+            <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-slate-900">Libzone</span>
           </Link>
 
           {isPublic || !user ? (
-            <div className="flex items-center gap-4 sm:gap-6">
-              <Link href="/about" className={cn("text-sm font-medium transition-colors shrink-0", pathname === "/about" ? "text-primary" : "text-slate-600 hover:text-primary")}>
+            <div className="flex items-center gap-3 sm:gap-6">
+              <Link href="/about" className={cn("text-xs sm:text-sm font-medium transition-colors shrink-0 py-2 px-2 sm:px-0 -mx-1 rounded-lg sm:rounded-none hover:bg-slate-50 sm:hover:bg-transparent", pathname === "/about" ? "text-primary" : "text-slate-600 hover:text-primary")}>
                 About
               </Link>
-              <Link href="/contact" className={cn("text-sm font-medium transition-colors shrink-0", pathname === "/contact" ? "text-primary" : "text-slate-600 hover:text-primary")}>
+              <Link href="/contact" className={cn("text-xs sm:text-sm font-medium transition-colors shrink-0 py-2 px-2 sm:px-0 -mx-1 rounded-lg sm:rounded-none hover:bg-slate-50 sm:hover:bg-transparent", pathname === "/contact" ? "text-primary" : "text-slate-600 hover:text-primary")}>
                 Contact
               </Link>
-              <div className="flex items-center gap-2 sm:gap-4">
+              <div className="hidden md:flex items-center gap-2 sm:gap-4">
                 <Link href="/login">
                   <Button variant="ghost" size="sm" className="text-slate-600 hover:text-primary hover:bg-blue-50 text-sm">Log in</Button>
                 </Link>
