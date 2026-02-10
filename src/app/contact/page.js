@@ -25,9 +25,9 @@ export default function Contact() {
                 Libzone is built with care by <span className="text-slate-900 font-bold">Gursewak Singh</span> to bring modern library management to campuses everywhere. Reach out for partnerships, support, or just to say hello.
               </p>
               <div className="flex flex-col gap-2">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Owner & Founder</p>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Founders</p>
                 <p className="font-display font-black text-2xl text-slate-900">Gursewak Singh</p>
-                <p className="text-slate-500 font-medium">and</p>
+                
 
                 <p className="font-display font-black text-2xl text-slate-900">Bhoomika Prashar</p>
               </div>
