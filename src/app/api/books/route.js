@@ -32,9 +32,9 @@ export async function POST(request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const body = await request.json();
-    const { title, author, category, total, available, image, rating } = body;
-    if (!title || !author || !category) {
-      return NextResponse.json({ error: "Title, author and category required" }, { status: 400 });
+    const { title, author, category, total, available, image, filePublicId, rating } = body;
+    if (!title || !author || !category || !image || !filePublicId) {
+      return NextResponse.json({ error: "Title, author, category, cover image and PDF are required" }, { status: 400 });
     }
     await connectDB();
     const totalNum = Math.max(1, parseInt(total) || 1);
@@ -45,7 +45,8 @@ export async function POST(request) {
       category,
       total: totalNum,
       available: availNum,
-      image: image || "/book-1.png",
+      image,
+      filePublicId,
       rating: parseFloat(rating) || 4.5,
     });
     return NextResponse.json(book);

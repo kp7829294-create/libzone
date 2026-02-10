@@ -36,7 +36,8 @@ function AdminDashboardContent() {
   const [search, setSearch] = useState("");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [formData, setFormData] = useState({ title: "", author: "", category: "", total: "10", available: "10", image: "" });
+  const [uploadingPdf, setUploadingPdf] = useState(false);
+  const [formData, setFormData] = useState({ title: "", author: "", category: "", total: "10", available: "10", image: "", filePublicId: "" });
 
   const fetchData = async () => {
     try {
@@ -48,12 +49,6 @@ function AdminDashboardContent() {
       const statsData = await statsRes.json();
       setBooks(Array.isArray(booksData) ? booksData : []);
       setStats(statsData);
-      if (Array.isArray(booksData) && booksData.length === 0) {
-        await fetch("/api/seed", { method: "POST" });
-        const reBooks = await fetch("/api/books").then((r) => r.json());
-        setBooks(Array.isArray(reBooks) ? reBooks : []);
-        setStats({ ...statsData, totalBooks: 5 });
-      }
     } catch {
       toast({ title: "Failed to load", variant: "destructive" });
     } finally {
@@ -77,9 +72,9 @@ function AdminDashboardContent() {
   };
 
   const handleSave = async () => {
-    const { title, author, category, total, available, image } = formData;
-    if (!title?.trim() || !author?.trim() || !category?.trim()) {
-      toast({ title: "Title, author and category required", variant: "destructive" });
+    const { title, author, category, total, available, image, filePublicId } = formData;
+    if (!title?.trim() || !author?.trim() || !category?.trim() || !image || !filePublicId || !total || !available) {
+      toast({ title: "All fields are required, including cover image and PDF", variant: "destructive" });
       return;
     }
     setSaving(true);
@@ -95,7 +90,8 @@ function AdminDashboardContent() {
           category: category.trim(),
           total: parseInt(total) || 10,
           available: (parseInt(available) ?? parseInt(total)) || 10,
-          image: image || undefined,
+          image,
+          filePublicId,
         }),
       });
       const data = await res.json();
@@ -108,7 +104,7 @@ function AdminDashboardContent() {
       toast({ title: "Saved successfully" });
       setShowAddModal(false);
       setEditingBook(null);
-      setFormData({ title: "", author: "", category: "", total: "10", available: "10", image: "" });
+      setFormData({ title: "", author: "", category: "", total: "10", available: "10", image: "", filePublicId: "" });
       fetchData();
     } catch (err) {
       toast({ title: err.message || "Save failed", variant: "destructive" });
@@ -149,6 +145,37 @@ function AdminDashboardContent() {
     }
   };
 
+  const handlePdfUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.type !== "application/pdf") {
+      toast({ title: "Please upload a PDF file", variant: "destructive" });
+      e.target.value = "";
+      return;
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      toast({ title: "PDF must be under 20MB", variant: "destructive" });
+      e.target.value = "";
+      return;
+    }
+    setUploadingPdf(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("folder", "libzone/books");
+      const res = await fetch("/api/upload/pdf", { method: "POST", body: fd });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Upload failed");
+      setFormData((prev) => ({ ...prev, filePublicId: data.publicId }));
+      toast({ title: "Book PDF uploaded" });
+    } catch (err) {
+      toast({ title: err.message || "Upload failed", variant: "destructive" });
+    } finally {
+      setUploadingPdf(false);
+      e.target.value = "";
+    }
+  };
+
   const openEdit = (book) => {
     setEditingBook(book);
     setFormData({
@@ -158,6 +185,7 @@ function AdminDashboardContent() {
       total: String(book.total || 10),
       available: String(book.available ?? book.total ?? 10),
       image: book.image || "",
+      filePublicId: book.filePublicId || "",
     });
     setShowAddModal(true);
   };
@@ -192,7 +220,7 @@ function AdminDashboardContent() {
               <h1 className="font-display text-3xl font-bold text-slate-900 tracking-tight">Admin Console</h1>
               <p className="text-slate-500 font-medium">Libzone management system</p>
             </div>
-            <Button onClick={() => { setEditingBook(null); setFormData({ title: "", author: "", category: "", total: "10", available: "10", image: "" }); setShowAddModal(true); }} className="bg-primary hover:bg-blue-600 shadow-xl shadow-blue-500/20 gap-2 h-12 px-8 rounded-2xl font-bold shrink-0">
+            <Button onClick={() => { setEditingBook(null); setFormData({ title: "", author: "", category: "", total: "10", available: "10", image: "", filePublicId: "" }); setShowAddModal(true); }} className="bg-primary hover:bg-blue-600 shadow-xl shadow-blue-500/20 gap-2 h-12 px-8 rounded-2xl font-bold shrink-0">
               <Plus className="h-5 w-5" />
               Add New Book
             </Button>
@@ -310,7 +338,7 @@ function AdminDashboardContent() {
               <Label htmlFor="title" className="font-bold text-slate-700">Book Title</Label>
               <Input id="title" value={formData.title} onChange={(e) => setFormData((p) => ({ ...p, title: e.target.value }))} className="h-12 rounded-xl bg-slate-50 border-none font-medium" placeholder="Enter title" />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="author" className="font-bold text-slate-700">Author</Label>
                 <Input id="author" value={formData.author} onChange={(e) => setFormData((p) => ({ ...p, author: e.target.value }))} className="h-12 rounded-xl bg-slate-50 border-none font-medium" placeholder="Author" />
@@ -331,6 +359,28 @@ function AdminDashboardContent() {
               </div>
             </div>
             <div className="grid gap-2">
+              <Label className="font-bold text-slate-700">Book PDF</Label>
+              <p className="text-xs text-slate-500 -mt-1">Upload the PDF file for this book (max 20MB)</p>
+              <div className="flex flex-wrap gap-4 items-center">
+                {formData.filePublicId && (
+                  <p className="text-xs text-emerald-600 font-medium break-all">PDF uploaded</p>
+                )}
+                <input
+                  id="book-pdf-upload"
+                  type="file"
+                  accept="application/pdf,.pdf"
+                  className="sr-only"
+                  onChange={handlePdfUpload}
+                  disabled={uploadingPdf}
+                />
+                <Button asChild type="button" variant="outline" disabled={uploadingPdf} className="min-w-[120px]">
+                  <label htmlFor="book-pdf-upload" className="cursor-pointer">
+                    {uploadingPdf ? "Uploading..." : formData.filePublicId ? "Change PDF" : "Upload PDF"}
+                  </label>
+                </Button>
+              </div>
+            </div>
+            <div className="grid gap-2">
               <Label className="font-bold text-slate-700">Cover Image</Label>
               <p className="text-xs text-slate-500 -mt-1">JPEG, PNG or WebP, max 5MB</p>
               <div className="flex flex-wrap gap-4 items-center">
@@ -339,15 +389,22 @@ function AdminDashboardContent() {
                     <Image src={formData.image} alt="Cover" fill className="object-cover" sizes="64px" />
                   </div>
                 )}
-                <label className="cursor-pointer">
-                  <input type="file" accept=".jpg,.jpeg,.png,.webp,.gif,image/jpeg,image/png,image/webp,image/gif" className="hidden" onChange={handleImageUpload} disabled={uploading} />
-                  <Button type="button" variant="outline" disabled={uploading} className="min-w-[100px]">
+                <input
+                  id="book-cover-upload"
+                  type="file"
+                  accept=".jpg,.jpeg,.png,.webp,.gif,image/jpeg,image/png,image/webp,image/gif"
+                  className="sr-only"
+                  onChange={handleImageUpload}
+                  disabled={uploading}
+                />
+                <Button asChild type="button" variant="outline" disabled={uploading} className="min-w-[100px]">
+                  <label htmlFor="book-cover-upload" className="cursor-pointer">
                     {uploading ? "Uploading..." : formData.image ? "Change" : "Upload"}
-                  </Button>
-                </label>
+                  </label>
+                </Button>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="stock" className="font-bold text-slate-700">Total Stock</Label>
                 <Input id="stock" type="number" min="1" value={formData.total} onChange={(e) => setFormData((p) => ({ ...p, total: e.target.value }))} className="h-12 rounded-xl bg-slate-50 border-none font-medium" />

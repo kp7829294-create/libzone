@@ -10,12 +10,14 @@ export function BookCard({ book, onBorrow, onReturn, borrowing, returning, hideB
   const isBorrowing = borrowing === book.id;
   const isReturning = returning === book.borrowId;
   const showReturn = isBorrowed && onReturn && !hideBorrow;
+  const coverSrc = book?.image || "/book-1.png";
+  const coverAlt = book?.title ? `${book.title} cover` : "Book cover";
   return (
     <Card className="group overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
       <div className="relative aspect-[3/4] overflow-hidden bg-slate-100">
         <Image
-          src={book.image}
-          alt={book.title}
+          src={coverSrc}
+          alt={coverAlt}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />

@@ -3,10 +3,19 @@ import { connectDB } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import Book from "@/models/Book";
 
+function getIdFromRequest(request, params) {
+  return (
+    params?.id ||
+    new URL(request.url).pathname.split("/").filter(Boolean).slice(-1)[0]
+  );
+}
+
 export async function GET(request, { params }) {
   try {
     await connectDB();
-    const book = await Book.findById(params.id).lean();
+    const id = getIdFromRequest(request, params);
+    if (!id) return NextResponse.json({ error: "Book ID required" }, { status: 400 });
+    const book = await Book.findById(id).lean();
     if (!book) return NextResponse.json({ error: "Book not found" }, { status: 404 });
     return NextResponse.json(book);
   } catch (err) {
@@ -22,9 +31,11 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const body = await request.json();
-    const { title, author, category, total, available, image, rating } = body;
+    const { title, author, category, total, available, image, filePublicId, rating } = body;
     await connectDB();
-    const book = await Book.findById(params.id);
+    const id = getIdFromRequest(request, params);
+    if (!id) return NextResponse.json({ error: "Book ID required" }, { status: 400 });
+    const book = await Book.findById(id);
     if (!book) return NextResponse.json({ error: "Book not found" }, { status: 404 });
     if (title != null) book.title = title;
     if (author != null) book.author = author;
@@ -36,6 +47,7 @@ export async function PUT(request, { params }) {
     }
     if (available != null) book.available = Math.max(0, Math.min(book.total, parseInt(available) ?? book.available));
     if (image != null) book.image = image;
+    if (filePublicId != null) book.filePublicId = filePublicId;
     if (rating != null) book.rating = parseFloat(rating) || 4.5;
     await book.save();
     return NextResponse.json(book);
@@ -52,7 +64,9 @@ export async function DELETE(request, { params }) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     await connectDB();
-    const book = await Book.findByIdAndDelete(params.id);
+    const id = getIdFromRequest(request, params);
+    if (!id) return NextResponse.json({ error: "Book ID required" }, { status: 400 });
+    const book = await Book.findByIdAndDelete(id);
     if (!book) return NextResponse.json({ error: "Book not found" }, { status: 404 });
     return NextResponse.json({ ok: true });
   } catch (err) {

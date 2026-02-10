@@ -43,11 +43,10 @@ export function Navbar() {
               <Link href="/contact" className={cn("text-xs sm:text-sm font-medium transition-colors shrink-0 py-2 px-2 sm:px-0 -mx-1 rounded-lg sm:rounded-none hover:bg-slate-50 sm:hover:bg-transparent", pathname === "/contact" ? "text-primary" : "text-slate-600 hover:text-primary")}>
                 Contact
               </Link>
-              <Link href="/login">
+              <div className="hidden md:flex items-center gap-2 sm:gap-4">
+                <Link href="/login">
                   <Button variant="ghost" size="sm" className="text-slate-600 hover:text-primary hover:bg-blue-50 text-sm">Log in</Button>
                 </Link>
-              <div className="hidden md:flex items-center gap-2 sm:gap-4">
-                
                 <Link href="/signup">
                   <Button size="sm" className="bg-primary hover:bg-blue-600 text-white shadow-lg shadow-blue-200 text-sm">Get Started</Button>
                 </Link>

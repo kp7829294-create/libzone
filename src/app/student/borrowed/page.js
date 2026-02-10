@@ -43,7 +43,9 @@ function StudentBorrowedContent() {
     }
   };
 
-  const borrowedBooks = borrows.map((b) => ({ ...b.book, borrowId: b._id, dueDate: b.dueDate })).filter(Boolean);
+  const borrowedBooks = borrows
+    .filter((b) => b && b.book)
+    .map((b) => ({ ...b.book, borrowId: b._id, dueDate: b.dueDate }));
 
   if (loading) {
     return (
@@ -74,24 +76,34 @@ function StudentBorrowedContent() {
               </Link>
             </div>
           ) : (
-            <div className="space-y-6">
-              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-                {borrowedBooks.map((item) => (
-                  <div key={item._id} className="flex flex-col gap-2">
-                    <BookCard book={{ ...item, id: item._id }} hideBorrow />
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full"
-                      onClick={() => handleReturn(item.borrowId)}
-                      disabled={returning === item.borrowId}
-                    >
-                      {returning === item.borrowId ? "Returning..." : "Return Book"}
-                    </Button>
-                  </div>
-                ))}
+              <div className="space-y-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+                  {borrowedBooks.map((item) => (
+                    <div key={`${item._id}-${item.borrowId}`} className="flex flex-col gap-2">
+                      <BookCard book={{ ...item, id: item._id }} hideBorrow />
+                      {(item.filePublicId || item.fileUrl) && (
+                        <Button
+                          variant="default"
+                          size="sm"
+                          className="w-full"
+                          onClick={() => window.open(`/student/read/${item.borrowId}`, "_blank", "noopener,noreferrer")}
+                        >
+                          Read Book
+                        </Button>
+                      )}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full"
+                        onClick={() => handleReturn(item.borrowId)}
+                        disabled={returning === item.borrowId}
+                      >
+                        {returning === item.borrowId ? "Returning..." : "Return Book"}
+                      </Button>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
           )}
         </div>
       </main>
