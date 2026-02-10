@@ -35,10 +35,12 @@ export default function Contact() {
             <div className="bg-slate-50 rounded-[40px] p-8 sm:p-10 flex items-center justify-center relative overflow-hidden">
               <div className="absolute inset-0 bg-blue-600/10 blur-[80px] rounded-full" />
               <div className="relative z-10 flex items-center gap-6">
-                <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden shadow-xl ring-4 ring-white">
+                {/* <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden shadow-xl ring-4 ring-white">
                   <Image src="/khush.jpg" alt="Gursewak Singh" fill className="object-cover" sizes="(max-width: 640px) 112px, 144px" priority />
+                </div> */}
+                <div className="hidden sm:block relative w-16 h-20 rounded-lg overflow-hidden shadow-lg opacity-80">
+                  <Image src="/book-1.png" alt="" fill className="object-cover" sizes="64px" />
                 </div>
-              
               </div>
             </div>
           </div>
