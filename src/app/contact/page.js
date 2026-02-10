@@ -27,6 +27,7 @@ export default function Contact() {
               <div className="flex flex-col gap-2">
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Owner & Founder</p>
                 <p className="font-display font-black text-2xl text-slate-900">Gursewak Singh</p>
+                <p className="font-display font-black text-2xl text-slate-900">Bhoomika Prashar</p>
                 <p className="text-slate-500 font-medium">Libzone</p>
               </div>
             </div>
