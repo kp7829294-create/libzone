@@ -38,9 +38,7 @@ export default function Contact() {
                 <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden shadow-xl ring-4 ring-white">
                   <Image src="/khush.jpg" alt="Gursewak Singh" fill className="object-cover" sizes="(max-width: 640px) 112px, 144px" priority />
                 </div>
-                <div className="hidden sm:block relative w-16 h-20 rounded-lg overflow-hidden shadow-lg opacity-80">
-                  <Image src="/book-1.png" alt="" fill className="object-cover" sizes="64px" />
-                </div>
+              
               </div>
             </div>
           </div>
