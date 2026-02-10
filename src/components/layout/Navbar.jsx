@@ -44,9 +44,7 @@ export function Navbar() {
                 Contact
               </Link>
               <div className="hidden md:flex items-center gap-2 sm:gap-4">
-                <Link href="/login">
-                  <Button variant="ghost" size="sm" className="text-slate-600 hover:text-primary hover:bg-blue-50 text-sm">Log in</Button>
-                </Link>
+                
                 <Link href="/signup">
                   <Button size="sm" className="bg-primary hover:bg-blue-600 text-white shadow-lg shadow-blue-200 text-sm">Get Started</Button>
                 </Link>
